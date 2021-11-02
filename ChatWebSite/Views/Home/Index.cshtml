@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Chat>
+@{
+    ViewData["Title"] = "Home Page";
+}
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+}
+
+<div class="ChatBox mt-5 pre-scrollable box-shadow">
+    @*<div class="SearchBar mb-1">
+        <div class="w-100">
+            <input type="search" class="TextInput w-100" placeholder="Поиск" name="search" />
+        </div>
+    </div>*@
+    <button class="Button" id="ShowCreateChat"><strong>+</strong>Создать чат</button>
+    @*<div class="Chat">
+        <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar" />
+        <div>
+            <h2>Привет!</h2>
+            <span>Серега: Привет!</span>
+            <span class="text-right text-muted">17.10.2021 15.49</span>
+        </div>
+        <img src="~/images/cross.png" class="Cross align-self-baseline ml-auto" />
+    </div>
+    <div class="Chat" onclick="document.location.href = 'Home/Chat/';">
+        <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar" />
+        <div>
+            <h2>Клуб Гачи</h2>
+            <span>Билли: Хей дружок пирожок</span>
+            <span class="text-right text-muted">17.10.2021 15.49</span>
+        </div>
+    </div>
+    <div class="Chat">
+        <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar" />
+        <div>
+            <h2>Ржака</h2>
+            <span>бебра: ахахахахаах</span>
+            <span class="text-right text-muted">17.10.2021 15.49</span>
+        </div>
+    </div>*@
+    @foreach (var chat in Model)
+    {
+        <div class="Chat" onclick="document.location.href = '/Home/Chat/@chat.Id'">
+            <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar" />
+            <div>
+                <h2>@chat.Name</h2>
+                <span>бебра: ахахахахаах</span>
+                <span class="text-right text-muted">17.10.2021 15.49</span>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="Modal" id="Modal">
+    <div class="Form box-shadow m-auto">
+        <form asp-action="CreateRoom" asp-controller="Home" method="post">
+            <div class="d-flex p-4 flex-column justify-content-around">
+                <div>
+                    <input type="text" class="TextInput" placeholder="Название чата" name="name" />
+                </div>
+                <div class="pt-4">
+                    <input type="submit" class="Button" value="Создать чат" />
+                </div>
+                <div class="pt-1">
+                    <a href="" id="HideCreateChat">Назад</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/home.js" asp-append-version="true"></script>
+}

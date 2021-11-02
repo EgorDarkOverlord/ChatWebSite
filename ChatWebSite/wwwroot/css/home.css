@@ -1,0 +1,48 @@
+﻿.SearchBar {
+    display: flex;
+    border-radius: 10px;
+    background-color: #fefefe;
+}
+
+.ChatBox {
+    min-height: 70vh;
+    padding: 20px;
+    background-color: #fefefe;
+    border-radius: 20px;
+}
+
+.Chat {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #fefefe;
+    border-radius: 10px;
+    transition: 0.1s ease;
+}
+
+    .Chat:hover {
+        background-color: #eaeef8;
+        transition: 0.1s ease;
+        cursor: pointer;
+    }
+
+    .Chat .Avatar {
+        margin-right: 10px;
+    }
+
+.Cross {
+    display: none;
+    width: 15px;
+    height: 15px;
+}
+
+.Modal {
+    background-color: rgba(196, 210, 220, 0.80);
+    display: none;
+    min-width: 100vw;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}

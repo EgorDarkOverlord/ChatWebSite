@@ -1,0 +1,75 @@
+﻿@using System.Security.Claims;
+@model Chat
+@{
+    ViewData["Title"] = "Chat";
+}
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/chat.css" asp-append-version="true" />
+}
+@{
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+}
+
+<div class="ChatBox my-5 d-flex flex-column pre-scrollable align-items-start box-shadow">
+    @*<div class="Message mb-3 d-flex box-shadow-mini">
+            <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar mr-5" />
+            <div>
+                <div>BEB4A</div>
+                <span>Привет</span>
+                <span class="text-muted">@DateTime.Now.ToString()</span>
+            </div>
+        </div>
+        <div class="Message mb-3 d-flex box-shadow-mini">
+            <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar mr-5" />
+            <div>
+                <div>BEB4A</div>
+                <span>Привет</span>
+                <span class="text-muted">@DateTime.Now.ToString()</span>
+            </div>
+        </div>
+        <div class="UserMessage mb-3 ml-auto d-flex box-shadow-mini">
+            <div>
+                <div>BEB4A</div>
+                <span>Привет</span>
+                <span class="text-muted">@DateTime.Now.ToString()</span>
+            </div>
+            <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar ml-5" />
+        </div>*@
+    @foreach (var message in Model.Messages)
+    {
+        if (message.UserId == userId)
+        {
+            <div class="UserMessage mb-3 d-flex box-shadow-mini">
+                <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar mr-5" />
+                <div>
+                    <div>@message.User.UserName</div>
+                    <span>@message.Content</span>
+                    <span class="text-muted">@message.Timestamp</span>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="Message mb-3 d-flex box-shadow-mini">
+                <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar mr-5" />
+                <div>
+                    <div>@message.User.UserName</div>
+                    <span>@message.Content</span>
+                    <span class="text-muted">@message.Timestamp</span>
+                </div>
+            </div>
+        }
+    }
+</div>
+<div class="Form p-3 w-100">
+    <form asp-action="CreateMessage" asp-controller="Home" method="post">
+        <input type="hidden" name="chatId" value="@Model.Id" />
+        <div>
+            <input type="text" name="content" class="TextInput" />
+        </div>
+        <div>
+            <input type="submit" class="Button mt-3" value="Отправить" />
+        </div>
+    </form>
+</div>
