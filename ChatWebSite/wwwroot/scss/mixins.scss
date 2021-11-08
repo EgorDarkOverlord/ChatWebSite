@@ -1,0 +1,41 @@
+﻿@import "variables.scss";
+
+@mixin clickable($color-property, $color-idle, $color-hover, $color-active) {
+    #{$color-property}: $color-idle;
+    transition: $transition;
+
+    &:hover {
+        #{$color-property}: $color-hover;
+        transition: $transition;
+    }
+
+    &:active {
+        #{$color-property}: $color-active;
+        transition: $transition;
+    }
+}
+
+@mixin clickable_base($color-property) {
+    @include clickable($color-property, $base-color, $base-color-hover, $base-color-active);
+}
+
+@mixin clickable_chat($color-property) {
+    @include clickable($color-property, $form-background-color, $form-background-color-hover, $form-background-color-active);
+}
+
+@mixin reset-clickable($color-property) {
+    transition: none;
+
+    &:hover {
+        #{$color-property}: inherit;
+        transition: none;
+    }
+
+    &:active {
+        #{$color-property}: $base-color-active;
+        transition: none;
+    }
+}
+
+@mixin create-form($name, $padding-element, $width, $height) {
+}

@@ -16,11 +16,13 @@ namespace ChatWebSite.ViewModels
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Не указан логин")]
+        [RegularExpression(@"^@\w+$", ErrorMessage = "Некорректный логин")]
         public string Login { get; set; }
 
         [Required(ErrorMessage = "Не указан пароль")]
         public string Password { get; set; }
-
+        
+        [Required(ErrorMessage = "Подтвердите пароль")]
         [Compare("Password", ErrorMessage = "Пароли должны совпадать")]
         public string ConfirmPassword { get; set; }
     }

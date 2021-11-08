@@ -1,41 +1,33 @@
-﻿@{
+﻿@model RegisterModel
+@{
     ViewData["Title"] = "Регистрация";
 }
 @section Styles
 {
-    <link rel="stylesheet" href="~/css/account.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/validation.css" asp-append-version="true" />
 }
-<div class="d-grid grid-template-columns-1fr-1fr">
-    <div class="p-5">
-        <div class="Form m-auto p-4 box-shadow">
-            <form asp-antiforgery="true" asp-action="Register" asp-controller="Account" method="post">
-                <div class="FlexForm">
-                    <div>
-                        <input type="text" class="TextInput" placeholder="Эл. почта" name="email" />
-                    </div>
-                    <div class="pt-4">
-                        <input type="text" class="TextInput" placeholder="Имя" name="name" />
-                    </div>
-                    <div class="pt-4">
-                        <input type="text" class="TextInput" placeholder="Логин" name="login" />
-                    </div>
-                    <div class="pt-4">
-                        <input type="password" class="TextInput" placeholder="Пароль" name="password" />
-                    </div>
-                    <div class="pt-4">
-                        <input type="password" class="TextInput" placeholder="Подтвердите пароль" name="confirmPassword" />
-                    </div>
-                    <div class="pt-4">
-                        <input type="submit" class="Button" value="Зарегистрироваться" />
-                    </div>
-                    <div class="pt-1">
-                        <a href="/Account/Login">Назад</a>
-                    </div>
-                </div>
-            </form>
-        </div>
+<div class="register">
+    <div class="form-block register__form-block">
+        <form asp-antiforgery="true" asp-action="Register" asp-controller="Account" class="form register-form" method="post">
+            <h1 class="register__title">Регистрация</h1>
+            <span asp-validation-for="Email"></span>
+            <input type="text" placeholder="Эл. почта" asp-for="Email" class="text-input register-form__text-input" />
+            <span asp-validation-for="Name"></span>
+            <input type="text" placeholder="Имя" asp-for="Name" class="text-input register-form__text-input" />
+            <span asp-validation-for="Login"></span>
+            <input type="text" placeholder="Логин" asp-for="Login" class="text-input register-form__text-input" />
+            <span asp-validation-for="Password"></span>
+            <input type="password" placeholder="Пароль" asp-for="Password" class="text-input register-form__text-input" />
+            <span asp-validation-for="ConfirmPassword"></span>
+            <input type="password" placeholder="Подтвердите пароль" asp-for="ConfirmPassword" class="text-input register-form__text-input" />
+            <input type="submit" class="button register-form__button" name="name" value="Зарегистрироваться" />
+            <a class="link" href="/Account/Login">Назад</a>
+        </form>
     </div>
-    <div class="p-5">
+    <div class="register__about">
         <p>ChatWebSite - это платформа для общения. Находите здесь друзей и общайтесь с ними</p>
     </div>
 </div>
+@section Scripts{
+    <script src="~/js/validator.js" asp-append-version="true"></script>
+}

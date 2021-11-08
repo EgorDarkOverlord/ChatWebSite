@@ -1,4 +1,4 @@
-﻿var Chats = document.querySelectorAll(".Chat");
+﻿var Chats = document.querySelectorAll(".chat");
 
 for (var i = 0; i < Chats.length; i++) {
     Chats[i].onmousedown = function () { return false; };
@@ -12,9 +12,9 @@ var HideCreateChatLink = document.getElementById("HideCreateChat");
 var Modal = document.getElementById("Modal");
 
 ShowCreateChatButton.addEventListener("click", function () {
-    Modal.style.display = "flex";
+    Modal.classList.replace("modal_disabled", "modal_enabled");
 });
 
 HideCreateChatLink.addEventListener("click", function () {
-    Modal.style.display = "none";
+    Modal.classList.replace("modal_enabled", "modal_disabled");
 });
