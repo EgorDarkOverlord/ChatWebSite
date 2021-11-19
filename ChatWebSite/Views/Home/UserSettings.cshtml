@@ -1,0 +1,13 @@
+﻿@model RegisterModel
+<div class="form-block user-settings__form-block">
+    <form asp-antiforgery="true" asp-action="Login" asp-controller="Account" method="post" class="form user-settings-form">
+        <h1 class="login__title">Вход</h1>
+        <span asp-validation-for="Email"></span>
+        <input type="text" asp-for="Email" placeholder="Эл. почта" class="text-input user-settings-form__text-input" />
+        <span asp-validation-for="Password"></span>
+        <input type="password" asp-for="Password" placeholder="Пароль" class="text-input user-settings-form__text-input" />
+        <input type="submit" class="button user-settings-form__button" value="Войти" />
+        <span>@Html.ValidationMessage("LoginError")</span>
+        <a class="link" href="/Home/Index">Назад</a>
+    </form>
+</div>

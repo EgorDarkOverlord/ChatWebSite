@@ -41,14 +41,16 @@ namespace ChatWebSite.Controllers
 
             if (user != null)
             {
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(
+                    user, model.Password, true, false);
+
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
             }
 
-            ModelState.AddModelError("LoginError", "Неверные логин и(или) пароль");
+            ModelState.AddModelError("LoginError", "Неверная эл. почта и(или) пароль");
             return View(model);
         }
 
@@ -81,9 +83,13 @@ namespace ChatWebSite.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, false);
+                    await _signInManager.SignInAsync(user, true);
                     return RedirectToAction("Index", "Home");
                 }
+            }
+            else
+            {
+                ModelState.AddModelError("RegisterError", "Логин должен быть уникальным");
             }
             
             return View(model);

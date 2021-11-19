@@ -36,6 +36,14 @@ body {
     color: $light-text-color;
 }
 
+.button-danger {
+    @include clickable_danger(background-color);
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    color: $light-text-color;
+}
+
 .text-input {
     padding: 5px;
     border: none;
@@ -66,6 +74,55 @@ body {
 
     &-wrap {
         height: $header-height;
+    }
+}
+
+.user {
+    display: flex;
+
+    &__block {
+        @include clickable_form(background-color);
+        display: flex;
+        margin: 10px;
+        min-width: 150px;
+        border-radius: 10px;
+    }
+
+    &__description {
+        margin: auto 10px;
+    }
+
+    &__login {
+        color: $muted-text-color;
+    }
+
+    &-menu {
+        display: none;
+        position: fixed;
+        margin-top: 10px;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        box-shadow: $box-shadow;
+        background-color: $form-background-color;
+
+        &.visible {
+            display: flex;
+        }
+
+        &__wrapper {
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
+            width: 100%;
+        }
+
+        &__button {
+            @include clickable_form(background-color);
+            padding: 5px;
+            border-radius: 5px;
+            color: $text-color;
+        }
     }
 }
 
@@ -185,36 +242,126 @@ body {
 }
 
 .chat {
-    @include clickable_chat(background-color);
+    @include clickable_form(background-color);
+    display: flex;
+    flex-direction: column;
     border-radius: 20px;
     cursor: default;
 
     &__wrapper {
-        margin-left: 20px;
-        margin-right: 20px;
-        display: flex;
+        margin: 20px 20px;
     }
 
     &__title {
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+
+    &__description {
+        color: $muted-text-color;
     }
 }
 
-.modal {
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 10;
-    min-width: 100vw;
-    min-height: 100vh;
-    background-color: $modal-background-color;
+.find {
+    $padding-element: 40px;
 
-    &_disabled {
-        display: none;
+    &__form-block {
+        margin: auto;
+        margin-top: 50px;
+        width: 400px;
+        height: 400px;
     }
 
-    &_enabled {
+    &__title {
+        margin: 0;
+        padding: 0;
+        margin-bottom: $padding-element / 2;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    &-form {
+        margin: 0 $padding-element;
+        height: 100%;
+
+        &__text-input {
+            margin-bottom: $padding-element / 2;
+            padding: 10px;
+        }
+
+        &__select {
+            margin-bottom: $padding-element / 2;
+            padding: 5px;
+            width: 50%;
+        }
+
+        &__button {
+            margin-bottom: $padding-element / 4;
+            padding: 10px;
+            width: 100px;
+        }
+    }
+
+    &-result {
         display: flex;
+        margin: auto;
+        margin-top: 50px;
+        width: 70%;
+        border-radius: 20px;
+        background-color: $form-background-color;
+        box-shadow: $box-shadow;
+
+        &__wrapper {
+            margin: 20px;
+            width: 100%;
+        }
+
+        &-block {
+            @include clickable_form(background-color);
+            display: flex;
+            border-radius: 10px;
+
+            &__wrapper {
+                margin: 20px;
+            }
+
+            &__title {
+                margin: 0;
+            }
+
+            &__login {
+                color: $muted-text-color;
+            }
+        }
     }
+}
+
+.user-settings {
+    @include create-form(400px, 600px);
+
+    &__form-block {
+        margin-top: 50px;
+    }
+}
+
+.change-password {
+    @include create-form(400px, 400px);
+
+    &__form-block {
+        margin-top: 100px;
+    }
+}
+
+.delete-user {
+    @include create-form(400px, 400px);
+
+    &__form-block {
+        margin-top: 100px;
+    }
+}
+
+.create-room {
+    margin-top: 100px;
 
     $padding-element: 40px;
 
@@ -231,6 +378,10 @@ body {
         &__text-input {
             margin-bottom: $padding-element / 2;
             padding: 10px;
+        }
+
+        &__checkbox {
+            margin-bottom: $padding-element / 2;
         }
 
         &__button {

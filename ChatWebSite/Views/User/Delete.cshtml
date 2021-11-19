@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Удаление пользователя";
+}
+
+<div class="form-block delete-user__form-block">
+    <form asp-antiforgery="true" asp-action="Delete" asp-controller="User" method="post" class="form delete-user-form">
+        <h1 class="delete-user__title">Удаление пользователя</h1>
+        <span>Вы уверены, что хотите удалить свой аккаунт. Отменить это действие будет невозможно</span>
+        <input type="submit" class="button-danger delete-user-form__button" value="Удалить пользователя" />
+        <a class="link" href="/User/Edit">Назад</a>
+    </form>
+</div>

@@ -1,0 +1,31 @@
+﻿@model CreateRoomModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/validation.css" asp-append-version="true" />
+}
+
+<div class="create-room">
+    <div class="form-block create-room__form-block">
+        <form asp-action="CreateRoom" asp-controller="Home" class="form create-room-form" method="post">
+            <h1 class="create-room__title">Создание чата</h1>
+            <span asp-validation-for="Name"></span>
+            <input type="text" asp-for="Name" class="text-input create-room-form__text-input" placeholder="Название чата" />
+            <span asp-validation-for="Login"></span>
+            <input type="text" asp-for="Login" class="text-input create-room-form__text-input" placeholder="Логин чата" />
+            <span class="create-room-form__checkbox"><input type="checkbox" asp-for="IsPrivate" />Приватный чат</span>
+            <input type="submit" class="button create-room-form__button" value="Создать чат" />
+            <span>@Html.ValidationMessage("UniqueLoginError")</span>
+            <a asp-action="Index" asp-controller="Home" class="link" id="HideCreateChat">Назад</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/validator.js" asp-append-version="true"></script>
+}

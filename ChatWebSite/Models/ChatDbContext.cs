@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
+using ChatWebSite.ViewModels;
+
 namespace ChatWebSite.Models
 {
     public class ChatDbContext : IdentityDbContext<User>
@@ -44,7 +46,50 @@ namespace ChatWebSite.Models
             return chat;
         }
 
-        public async Task<Message> CreateMessage(int chatId, string content, string userId)
+        public async Task<FindModel> FindModel(FindModel model)
+        {
+            model.Chats = new List<Chat>();
+            model.Users = new List<User>();
+
+            switch (model.SearchByType)
+            {
+                case "Chat":
+                    var publicChats = Chats.Where(c => c.Type == ChatType.Public);
+                    switch (model.SearchByAttribute)
+                    {   
+                        case "Name": 
+                            model.Chats = await publicChats.Where(
+                                c => c.Name.Contains(model.SearchString))
+                                .ToListAsync(); 
+                            break;
+                        case "Login": 
+                            model.Chats = await publicChats.Where(
+                                c => c.Login.Contains(model.SearchString))
+                                .ToListAsync(); 
+                            break;
+                    }
+                    break;
+                case "User":
+                    switch (model.SearchByAttribute)
+                    {
+                        case "Name":
+                            model.Users = await Users.Where(
+                                c => c.UserName.Contains(model.SearchString))
+                                .ToListAsync(); 
+                            break;
+                        case "Login": 
+                            model.Users = await Users.Where(
+                                c => c.Login.Contains(model.SearchString))
+                                .ToListAsync(); 
+                            break;
+                    }
+                    break;
+            }
+            
+            return model;
+        }
+
+        public async Task<Message> CreateMessageAsync(int chatId, string content, string userId)
         {
             var Message = new Message
             {
@@ -61,12 +106,13 @@ namespace ChatWebSite.Models
             return Message;
         }
 
-        public async Task CreateRoom(string name, string userId)
+        public async Task CreateRoomAsync(CreateRoomModel model, string userId)
         {
             var chat = new Chat
             {
-                Name = name,
-                Type = ChatType.Public
+                Name = model.Name,
+                Login = model.Login,
+                Type = model.IsPrivate ? ChatType.Private : ChatType.Public
             };
 
             chat.Users.Add(new ChatUser

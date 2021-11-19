@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using ChatWebSite.Models;
-
-
+using ChatWebSite.ViewModels;
 
 namespace ChatWebSite.Controllers
 {
@@ -17,7 +16,7 @@ namespace ChatWebSite.Controllers
     {
         private ChatDbContext db;
 
-        
+
         /// <summary>
         /// Находит Id пользователя
         /// </summary>
@@ -35,11 +34,50 @@ namespace ChatWebSite.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRoom(string name)
+        public async Task<IActionResult> CreateRoom(CreateRoomModel model)
         {
-            await db.CreateRoom(name, GetUserId());
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-            return RedirectToAction("Index");
+            var uniqueLogin = !db.Chats.Any(c => c.Login == model.Login);
+
+            if (uniqueLogin)
+            {
+                await db.CreateRoomAsync(model, GetUserId());
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("UniqueLoginError", "Логин должен быть уникальным");
+            }
+
+            return View(model);
+        }
+        
+        [HttpGet]
+        public IActionResult CreateRoom()
+        {
+            return View();
+        }
+
+        //Вход на страницу поиска
+        public IActionResult Find()
+        {
+            return View(new FindModel());
+        }
+        
+        //Отображение результатов поиска поиска
+        [ActionName("GetFindResult")]
+        public async Task<IActionResult> Find(FindModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                model = await db.FindModel(model);
+            }
+            
+            return View("Find", model);
         }
 
         public IActionResult Chat(int id)
@@ -52,7 +90,7 @@ namespace ChatWebSite.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMessage(int chatId, string content)
         {
-            await db.CreateMessage(chatId, content, GetUserId());
+            await db.CreateMessageAsync(chatId, content, GetUserId());
 
             return RedirectToAction("Chat", new { id = chatId });
         }

@@ -1,0 +1,68 @@
+﻿@model FindModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/validation.css" asp-append-version="true" />
+}
+
+<div class="find">
+    <div class="form-block find__form-block">
+        <form asp-controller="Home" asp-action="GetFindResult" method="get" class="form find-form">
+            <h1 class="find__title">Поиск</h1>
+            <span asp-validation-for="SearchString"></span>
+            <input type="text" asp-for="SearchString" class="text-input find-form__text-input" placeholder="Введите название чата/пользователя" />
+            <select asp-for="SearchByType" class="find-form__select">
+                <option value="User">Пользователь</option>
+                <option value="Chat">Чат</option>
+            </select>
+            <select asp-for="SearchByAttribute" class="find-form__select">
+                <option value="Name">По имени</option>
+                <option value="Login">По логину</option>
+            </select>
+            <input type="submit" class="button find-form__button" value="Поиск" />
+            <a asp-controller="Home" asp-action="Index" class="link">Назад</a>
+        </form>
+    </div>
+
+    <div class="find-result">
+        <div class="find-result__wrapper">
+            @foreach (var user in Model.Users)
+            {
+                <div class="find-result-block">
+
+                    <div class="find-result-block__wrapper">
+                        <h2 class="find-result-block__title">@user.UserName</h2>
+                        <span class="find-result-block__login">@user.Login</span>
+                    </div>
+                </div>
+            }
+            @foreach (var chat in Model.Chats)
+            {
+                <div class="find-result-block">
+                    <div class="find-result-block__wrapper">
+                        <h2 class="find-result-block__title">@chat.Name</h2>
+                        <span class="find-result-block__login">@chat.Login</span>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+
+    @*<div class="find-result">
+        <div class="find-result__wrapper">
+            
+        </div>
+    </div>*@
+</div>
+
+
+@section Scripts
+{
+    <script src="~/js/validator.js" asp-append-version="true"></script>
+}

@@ -1,20 +1,23 @@
 ﻿@model LoginModel
+
 @{
     ViewData["Title"] = "Вход";
 }
+
 @section Styles
 {
     <link rel="stylesheet" href="~/css/validation.css" asp-append-version="true" />
 }
+
 <div class="login">
     <div class="form-block login__form-block">
         <form asp-antiforgery="true" asp-action="Login" asp-controller="Account" method="post" class="form login-form">
             <h1 class="login__title">Вход</h1>
             <span asp-validation-for="Email"></span>
-            <input type="text" placeholder="Эл. почта" asp-for="Email" class="text-input login-form__text-input" />
+            <input type="text" asp-for="Email" placeholder="Эл. почта" class="text-input login-form__text-input" />
             <span asp-validation-for="Password"></span>
-            <input type="password" placeholder="Пароль" asp-for="Password" class="text-input login-form__text-input" />
-            <input type="submit" class="button login-form__button" name="name" value="Войти" />
+            <input type="password" asp-for="Password" placeholder="Пароль" class="text-input login-form__text-input" />
+            <input type="submit" class="button login-form__button" value="Войти" />
             <span>@Html.ValidationMessage("LoginError")</span>
             <a class="link" href="/Account/Register">Регистрация</a>
         </form>
@@ -23,6 +26,8 @@
         <p>ChatWebSite - это платформа для общения. Находите здесь друзей и общайтесь с ними</p>
     </div>
 </div>
-@section Scripts{
+
+@section Scripts
+{
     <script src="~/js/validator.js" asp-append-version="true"></script>
 }

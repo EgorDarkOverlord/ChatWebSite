@@ -8,10 +8,41 @@
     <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
+
+@{
+    string userId = null;
+    UserManager<User> userManager = null;
+    User user = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        userManager = (UserManager<User>)
+            Context.RequestServices.GetService(typeof(UserManager<User>));
+        user = await userManager.GetUserAsync(User);
+    }
+}
+
 <body>
     <div class="wrapper">
         <header class="header">
             <a href="/Home/Index" class="logo header__logo">ChatWebSite</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="user">
+                    <div class="user__block" id="user-menu-button">
+                        <div class="user__description">
+                            <div>@user.UserName</div>
+                            <div class="user__login">@user.Login</div>
+                        </div>
+                    </div>
+                    <div class="user-menu" id="user-menu">
+                        <div class="user-menu__wrapper">
+                            <a href="/User/Edit" class="user-menu__button">Настройки</a>
+                            <a href="/Account/Logout" class="user-menu__button">Выход</a>
+                        </div>
+                    </div>
+                </div>
+            }
         </header>
         <div class="header-wrap"></div>
         <main role="main" class="main">

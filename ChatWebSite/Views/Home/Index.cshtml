@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<Chat>
+
 @{
     ViewData["Title"] = "Home Page";
 }
+
 @section Styles
 {
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
@@ -9,37 +11,8 @@
 
 <div class="chatbox">
     <div class="chatbox__wrapper">
-        @*<div class="SearchBar mb-1">
-                <div class="w-100">
-                    <input type="search" class="TextInput w-100" placeholder="Поиск" name="search" />
-                </div>
-            </div>*@
-        <button class="button chatbox__button" id="ShowCreateChat"><strong>+</strong>Создать чат</button>
-        @*<div class="Chat">
-                <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar" />
-                <div>
-                    <h2>Привет!</h2>
-                    <span>Серега: Привет!</span>
-                    <span class="text-right text-muted">17.10.2021 15.49</span>
-                </div>
-                <img src="~/images/cross.png" class="Cross align-self-baseline ml-auto" />
-            </div>
-            <div class="Chat" onclick="document.location.href = 'Home/Chat/';">
-                <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar" />
-                <div>
-                    <h2>Клуб Гачи</h2>
-                    <span>Билли: Хей дружок пирожок</span>
-                    <span class="text-right text-muted">17.10.2021 15.49</span>
-                </div>
-            </div>
-            <div class="Chat">
-                <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar" />
-                <div>
-                    <h2>Ржака</h2>
-                    <span>бебра: ахахахахаах</span>
-                    <span class="text-right text-muted">17.10.2021 15.49</span>
-                </div>
-            </div>*@
+        <a asp-action="Find" asp-controller="Home" class="button chatbox__button">Найти чат</a>
+        <a asp-action="CreateRoom" asp-controller="Home" class="button chatbox__button"><strong>+</strong>Создать чат</a>
         @foreach (var chat in Model)
         {
             for (int i = 0; i < 4; i++)
@@ -47,21 +20,11 @@
                 <div class="chat" onclick="document.location.href = '/Home/Chat/@chat.Id'">
                     <div class="chat__wrapper">
                         <h2 class="chat__title">@chat.Name</h2>
+                        <span class="chat__description">@chat.Login</span>
                     </div>
                 </div>
             }
         }
-    </div>
-</div>
-<div class="modal modal_disabled" id="Modal">
-    <div class="form-block modal__form-block">
-        <form asp-action="CreateRoom" asp-controller="Home" class="form modal-form" method="post">
-            <h1 class="modal__title">Создание чата</h1>
-            <input type="text" class="text-input modal-form__text-input" placeholder="Название чата" name="name" />
-            <input type="text" class="text-input modal-form__text-input" placeholder="Логин чата" name="name" />
-            <input type="submit" class="button modal-form__button" value="Создать чат" />
-            <a href="" class="link" id="HideCreateChat">Назад</a>
-        </form>
     </div>
 </div>
 

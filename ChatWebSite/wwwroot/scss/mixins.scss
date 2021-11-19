@@ -19,7 +19,11 @@
     @include clickable($color-property, $base-color, $base-color-hover, $base-color-active);
 }
 
-@mixin clickable_chat($color-property) {
+@mixin clickable_danger($color-property) {
+    @include clickable($color-property, $danger-color, $danger-color-hover, $danger-color-active);
+}
+
+@mixin clickable_form($color-property) {
     @include clickable($color-property, $form-background-color, $form-background-color-hover, $form-background-color-active);
 }
 
@@ -37,5 +41,35 @@
     }
 }
 
-@mixin create-form($name, $padding-element, $width, $height) {
+@mixin create-form($width, $height) {
+    $padding-element: 40px;
+
+    &__form-block {
+        margin: auto;
+        width: $width;
+        height: $height;
+    }
+
+    &__title {
+        margin: 0;
+        margin-bottom: $padding-element / 2;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    &-form {
+        margin: 0 $padding-element;
+        height: 100%;
+
+        &__text-input {
+            margin-bottom: $padding-element / 2;
+            padding: 10px;
+        }
+
+        &__button {
+            margin-bottom: $padding-element / 4;
+            padding: 10px;
+            width: 200px;
+        }
+    }
 }

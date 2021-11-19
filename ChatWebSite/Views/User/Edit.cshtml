@@ -1,0 +1,31 @@
+﻿@model EditUserModel
+
+@{
+    ViewData["Title"] = "Настройки пользователя";
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/validation.css" asp-append-version="true" />
+}
+
+<div class="form-block user-settings__form-block">
+    <form asp-antiforgery="true" asp-action="Edit" asp-controller="User" method="post" class="form user-settings-form">
+        <h1 class="login__title">Настройки пользователя</h1>
+        <span asp-validation-for="Name"></span>
+        <input type="text" asp-for="Name" placeholder="Имя" class="text-input user-settings-form__text-input" value="@Model.Name" />
+        <span asp-validation-for="Email"></span>
+        <input type="text" asp-for="Email" placeholder="Эл. почта" class="text-input user-settings-form__text-input" value="@Model.Email" />
+        <span asp-validation-for="Login"></span>
+        <input type="text" asp-for="Login" placeholder="Логин" class="text-input user-settings-form__text-input" value="@Model.Login" />
+        <input type="submit" class="button user-settings-form__button" value="Сохранить изменения" />
+        <a class="button user-settings-form__button" href="/User/ChangePassword">Изменить пароль</a>
+        <a class="button-danger user-settings-form__button" href="/User/Delete">Удалить пользователя</a>
+        <a class="link" href="/Home/Index">Назад</a>
+    </form>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/validator.js" asp-append-version="true"></script>
+}
