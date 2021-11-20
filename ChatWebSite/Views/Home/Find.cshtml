@@ -38,6 +38,7 @@
                     <div class="find-result-block__wrapper">
                         <h2 class="find-result-block__title">@user.UserName</h2>
                         <span class="find-result-block__login">@user.Login</span>
+                        <a asp-controller="Home" asp-action="InviteToChat" asp-route-id="@user.Id" class="link">Пригласить в чат</a>
                     </div>
                 </div>
             }
@@ -47,6 +48,7 @@
                     <div class="find-result-block__wrapper">
                         <h2 class="find-result-block__title">@chat.Name</h2>
                         <span class="find-result-block__login">@chat.Login</span>
+                        <a asp-controller="Home" asp-action="JoinChat" asp-route-id="@chat.Id" class="link">Присоединиться</a>
                     </div>
                 </div>
             }

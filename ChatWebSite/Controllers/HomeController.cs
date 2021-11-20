@@ -55,7 +55,7 @@ namespace ChatWebSite.Controllers
 
             return View(model);
         }
-        
+
         [HttpGet]
         public IActionResult CreateRoom()
         {
@@ -67,17 +67,51 @@ namespace ChatWebSite.Controllers
         {
             return View(new FindModel());
         }
-        
-        //Отображение результатов поиска поиска
+
+        //Отображение результатов поиска
         [ActionName("GetFindResult")]
         public async Task<IActionResult> Find(FindModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                model = await db.FindModel(model);
+                model = await db.FindModelAsync(model);
             }
-            
+
             return View("Find", model);
+        }
+
+        public async Task<IActionResult> JoinChat(int id)
+        {
+            var chat = db.FindChatById(id);
+
+            await db.JoinChatAsync(chat, GetUserId());
+
+            return View("Chat", chat);
+        }
+
+        public IActionResult InviteToChat(string id)
+        {
+            var guest = db.Users.Find(id);
+            var chats = db.FindChatsByUserId(GetUserId()).ToList();
+
+            InviteToChatModel model = new InviteToChatModel
+            {
+                Guest = guest,
+                GuestId = id,
+                Chats = chats
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InviteToChat(InviteToChatModel model)
+        {
+            var chat = db.Chats.Find(model.ChatId);
+
+            await db.InviteToChatAsync(chat, model.GuestId);
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Chat(int id)
@@ -93,11 +127,6 @@ namespace ChatWebSite.Controllers
             await db.CreateMessageAsync(chatId, content, GetUserId());
 
             return RedirectToAction("Chat", new { id = chatId });
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -15,15 +15,12 @@
         <a asp-action="CreateRoom" asp-controller="Home" class="button chatbox__button"><strong>+</strong>Создать чат</a>
         @foreach (var chat in Model)
         {
-            for (int i = 0; i < 4; i++)
-            {
-                <div class="chat" onclick="document.location.href = '/Home/Chat/@chat.Id'">
-                    <div class="chat__wrapper">
-                        <h2 class="chat__title">@chat.Name</h2>
-                        <span class="chat__description">@chat.Login</span>
-                    </div>
+            <div class="chat" onclick="document.location.href = '/Home/Chat/@chat.Id'">
+                <div class="chat__wrapper">
+                    <h2 class="chat__title">@chat.Name</h2>
+                    <span class="chat__description">@chat.Login</span>
                 </div>
-            }
+            </div>
         }
     </div>
 </div>

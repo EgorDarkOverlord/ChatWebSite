@@ -1,0 +1,50 @@
+﻿@model InviteToChatModel
+
+@{
+    ViewData["Title"] = "Пригласить в чат: " + Model.Guest.UserName;
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+}
+
+<div class="chatbox">
+    <div class="chatbox__wrapper">
+        <a asp-action="Index" asp-controller="Home" class="link">Назад</a>
+        <h1>Пригласить в чат: @Model.Guest.UserName</h1>
+        @foreach (var chat in Model.Chats)
+        {
+            @*<form asp-action="InviteToChat" asp-controller="Home" method="post">
+                    <input type="hidden" name="guestId" value="@Model.GuestId" />
+                    <input type="hidden" name="chatId" value="@chat.Id" />
+                    <button type="submit" class="chat">
+                        <div class="chat__wrapper">
+                            <h2 class="chat__title">@chat.Name</h2>
+                            <span class="chat__description">@chat.Login</span>
+                        </div>
+                    </button>
+                </form>*@
+            <div class="chat" onclick="submit(this)">
+                <div id="guestId" style="display: none">@Model.GuestId</div>
+                <div id="chatId" style="display: none">@chat.Id</div>
+                <div class="chat__wrapper">
+                    <h2 class="chat__title">@chat.Name</h2>
+                    <span class="chat__description">@chat.Login</span>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<form asp-action="InviteToChat" asp-controller="Home" method="post" style="display: none">
+    <input type="hidden" id="guestId" name="guestId" value="" />
+    <input type="hidden" id="chatId" name="chatId" value="" />
+    <input type="submit" />
+</form>
+
+@section Scripts
+{
+    <script src="~/js/home.js" asp-append-version="true"></script>
+    <script src="~/js/invite.js" asp-append-version="true"></script>
+}

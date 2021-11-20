@@ -46,7 +46,7 @@ namespace ChatWebSite.Models
             return chat;
         }
 
-        public async Task<FindModel> FindModel(FindModel model)
+        public async Task<FindModel> FindModelAsync(FindModel model)
         {
             model.Chats = new List<Chat>();
             model.Users = new List<User>();
@@ -124,6 +124,52 @@ namespace ChatWebSite.Models
             Chats.Add(chat);
 
             await SaveChangesAsync();
+        }
+
+        public async Task JoinChatAsync(Chat chat, string userId)
+        {
+            if (chat != null)
+            {
+                if (!await Chats.ContainsAsync(chat))
+                {
+                    throw new ArgumentException("Параметр chat должен принадлежать объекту ChatDbContext");
+                }
+
+                chat.Users.Add(new ChatUser
+                {
+                    UserId = userId,
+                    Role = UserRole.Member
+                });
+
+                await SaveChangesAsync();
+            }
+            else
+            {
+                throw new ArgumentNullException("Параметр chat не должен быть равен null");
+            }
+        }
+
+        public async Task InviteToChatAsync(Chat chat, string guestId) //Как нехорошо, код дублируется
+        {
+            if (chat != null)
+            {
+                if (!await Chats.ContainsAsync(chat))
+                {
+                    throw new ArgumentException("Параметр chat должен принадлежать объекту ChatDbContext");
+                }
+
+                chat.Users.Add(new ChatUser
+                {
+                    UserId = guestId,
+                    Role = UserRole.Member
+                });
+
+                await SaveChangesAsync();
+            }
+            else
+            {
+                throw new ArgumentNullException("Параметр chat не должен быть равен null");
+            }
         }
     }
 }

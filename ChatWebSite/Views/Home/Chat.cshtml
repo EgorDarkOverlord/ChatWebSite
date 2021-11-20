@@ -14,30 +14,6 @@
 
 <div class="messagebox">
     <div class="messagebox__wrapper">
-        @*<div class="Message mb-3 d-flex box-shadow-mini">
-                <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar mr-5" />
-                <div>
-                    <div>BEB4A</div>
-                    <span>Привет</span>
-                    <span class="text-muted">@DateTime.Now.ToString()</span>
-                </div>
-            </div>
-            <div class="Message mb-3 d-flex box-shadow-mini">
-                <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar mr-5" />
-                <div>
-                    <div>BEB4A</div>
-                    <span>Привет</span>
-                    <span class="text-muted">@DateTime.Now.ToString()</span>
-                </div>
-            </div>
-            <div class="UserMessage mb-3 ml-auto d-flex box-shadow-mini">
-                <div>
-                    <div>BEB4A</div>
-                    <span>Привет</span>
-                    <span class="text-muted">@DateTime.Now.ToString()</span>
-                </div>
-                <img src="https://im0-tub-ru.yandex.net/i?id=f1ce1d41bd3dc540f29e07067bf3760f-l&n=27" class="Avatar ml-5" />
-            </div>*@
         @foreach (var message in Model.Messages)
         {
             @Html.CreateMessage(message, userId);
