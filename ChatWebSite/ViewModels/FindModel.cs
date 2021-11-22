@@ -1,15 +1,12 @@
 ﻿using ChatWebSite.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ChatWebSite.ViewModels
 {
     public class FindModel
     {
-        [Required (ErrorMessage ="Не указано название или логин")]
+        [Required(ErrorMessage = "Не указано название или логин")]
         public string SearchString { get; set; }
 
         [Required(ErrorMessage = "Там же выбор, ты как это поле пустым оставил")]

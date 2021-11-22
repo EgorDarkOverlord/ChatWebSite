@@ -1,13 +1,16 @@
-﻿@using System.Security.Claims;
-@using ChatWebSite.HtmlHelpers;
+﻿@using ChatWebSite.HtmlHelpers;
+
 @model Chat
+
 @{
-    ViewData["Title"] = "Chat";
+    ViewData["Title"] = Model.Name;
 }
+
 @section Styles
 {
     <link rel="stylesheet" href="~/css/chat.css" asp-append-version="true" />
 }
+
 @{
     var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 }
@@ -17,45 +20,84 @@
         @foreach (var message in Model.Messages)
         {
             @Html.CreateMessage(message, userId);
-            @*<div class="message">
-                    <div class="message__wrapper">
-                        <div>@message.User.UserName</div>
-                        <div>@message.User.Login</div>
-                        <span>@message.Content</span>
-                        <span class="text-muted">@message.Timestamp</span>
-                    </div>
-                </div>*@
-            @*if (message.UserId == userId)
-                {
-                    <div class="UserMessage mb-3 d-flex box-shadow-mini">
-                        <div>
-                            <div>@message.User.UserName</div>
-                            <span>@message.Content</span>
-                            <span class="text-muted">@message.Timestamp</span>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="Message mb-3 d-flex box-shadow-mini">
-                        <div>
-                            <div>@message.User.UserName</div>
-                            <span>@message.Content</span>
-                            <span class="text-muted">@message.Timestamp</span>
-                        </div>
-                    </div>
-                }*@
         }
     </div>
 </div>
+
 <div class="write">
     <div class="form-block write__form-block">
-        <form asp-action="CreateMessage" asp-controller="Home" method="post" class="form write-form">
-            
-                <input type="hidden" name="chatId" value="@Model.Id" />
-                <input type="text" name="content" placeholder="Введите сообщение" class="text-input write-form__text-input" />
-                <input type="submit" class="button write-form__button" value="Отправить" />
-            
+        <form asp-action="CreateMessage" asp-controller="Home" onsubmit="sendMessage(event)" method="post" class="form write-form">
+            <input type="hidden" name="chatId" value="@Model.Id" />
+            <input type="text" id="message-input" name="content" placeholder="Введите сообщение" class="text-input write-form__text-input" />
+            <input type="submit" class="button write-form__button" value="Отправить" />
         </form>
     </div>
 </div>
+
+@section Scripts{
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="~/js/chat.js"></script>
+    <script>
+        var messageboxWrapper = document.querySelector(".messagebox__wrapper");
+
+        var connection = new signalR.HubConnectionBuilder()
+            .withUrl("/chat")
+            .build();
+
+        connection.on("RecieveMessage", function (message) {
+            console.log("Получено сообщение");
+            console.log(message);
+
+            var string = "@Html.CreateMessageRaw()";
+            console.log(string);
+
+            string = string
+                .replace("MESSAGE_TYPE", message.userId == "@userId" ?
+                    "message_user-message" :
+                    "message_member-message")
+                .replace("MESSAGE_USER_USERNAME", message.user.userName)
+                .replace("MESSAGE_CONTENT", message.content)
+                .replace("MESSAGE_USER_LOGIN", message.user.login)
+                .replace("MESSAGE_TIMESTAMP", new Date(message.timestamp)
+                    .toLocaleString()
+                    .replace(",", ""));
+
+            console.log(string);
+
+            messageboxWrapper.innerHTML += string;
+        });
+
+        connection.start()
+        .then(function () {
+            connection.invoke("joinRoom", "@Model.Id");
+        })
+        .catch(function (err) {
+            console.log(err)
+        })
+
+        window.addEventListener("onunload", function () {
+            connection.invoke("leaveRoom", "@Model.Id");
+        });
+
+        var sendMessage = function (event) {
+            event.preventDefault();
+
+            var data = new FormData(event.target);
+
+            document.getElementById('message-input').value = '';
+
+            axios.post("/Home/CreateMessage", data)
+                .then(res => {
+                    console.log("Message Sent!");
+                })
+                .catch(err => {
+                    console.log("Failed to send message!");
+                    console.log(err);
+                });
+        };
+
+    </script>
+}
+
+

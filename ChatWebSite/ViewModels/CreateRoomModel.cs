@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ChatWebSite.ViewModels
 {
@@ -10,7 +6,7 @@ namespace ChatWebSite.ViewModels
     {
         [Required(ErrorMessage = "Не указано название чата")]
         public string Name { get; set; }
-        
+
         [Required(ErrorMessage = "Не указан логин")]
         [RegularExpression(@"^@\w+$", ErrorMessage = "Некорректный логин")]
         public string Login { get; set; }

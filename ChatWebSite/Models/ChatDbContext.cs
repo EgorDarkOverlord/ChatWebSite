@@ -1,12 +1,10 @@
-﻿using System;
+﻿using ChatWebSite.ViewModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-using ChatWebSite.ViewModels;
 
 namespace ChatWebSite.Models
 {
@@ -56,16 +54,16 @@ namespace ChatWebSite.Models
                 case "Chat":
                     var publicChats = Chats.Where(c => c.Type == ChatType.Public);
                     switch (model.SearchByAttribute)
-                    {   
-                        case "Name": 
+                    {
+                        case "Name":
                             model.Chats = await publicChats.Where(
                                 c => c.Name.Contains(model.SearchString))
-                                .ToListAsync(); 
+                                .ToListAsync();
                             break;
-                        case "Login": 
+                        case "Login":
                             model.Chats = await publicChats.Where(
                                 c => c.Login.Contains(model.SearchString))
-                                .ToListAsync(); 
+                                .ToListAsync();
                             break;
                     }
                     break;
@@ -75,17 +73,17 @@ namespace ChatWebSite.Models
                         case "Name":
                             model.Users = await Users.Where(
                                 c => c.UserName.Contains(model.SearchString))
-                                .ToListAsync(); 
+                                .ToListAsync();
                             break;
-                        case "Login": 
+                        case "Login":
                             model.Users = await Users.Where(
                                 c => c.Login.Contains(model.SearchString))
-                                .ToListAsync(); 
+                                .ToListAsync();
                             break;
                     }
                     break;
             }
-            
+
             return model;
         }
 

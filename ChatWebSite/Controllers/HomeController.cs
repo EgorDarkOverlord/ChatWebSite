@@ -1,13 +1,12 @@
-﻿using System.Diagnostics;
+﻿using ChatWebSite.Models;
+using ChatWebSite.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-using ChatWebSite.Models;
-using ChatWebSite.ViewModels;
 
 namespace ChatWebSite.Controllers
 {
@@ -122,11 +121,15 @@ namespace ChatWebSite.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMessage(int chatId, string content)
+        public async Task<IActionResult> CreateMessage(int chatId, string content,
+            [FromServices] IHubContext<ChatHub> chat)
         {
-            await db.CreateMessageAsync(chatId, content, GetUserId());
+            var message = await db.CreateMessageAsync(chatId, content, GetUserId());
 
-            return RedirectToAction("Chat", new { id = chatId });
+            await chat.Clients.Group(chatId.ToString())
+                .SendAsync("RecieveMessage", message);
+
+            return Ok();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

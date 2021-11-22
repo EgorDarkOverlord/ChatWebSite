@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ChatWebSite.ViewModels
 {
@@ -21,7 +17,7 @@ namespace ChatWebSite.ViewModels
 
         [Required(ErrorMessage = "Не указан пароль")]
         public string Password { get; set; }
-        
+
         [Required(ErrorMessage = "Подтвердите пароль")]
         [Compare("Password", ErrorMessage = "Пароли должны совпадать")]
         public string ConfirmPassword { get; set; }

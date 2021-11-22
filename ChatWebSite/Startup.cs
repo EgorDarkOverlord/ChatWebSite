@@ -1,16 +1,11 @@
 using ChatWebSite.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ChatWebSite
 {
@@ -27,6 +22,7 @@ namespace ChatWebSite
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
             connection = connection.Replace("|DataDirectory|", System.IO.Directory.GetCurrentDirectory());
+
             services.AddDbContext<ChatDbContext>(options => options.UseSqlServer(connection));
 
             services.AddIdentity<User, IdentityRole>(options =>
@@ -40,6 +36,8 @@ namespace ChatWebSite
             })
                 .AddEntityFrameworkStores<ChatDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddSignalR();
 
             services.AddControllersWithViews();
         }
@@ -68,6 +66,8 @@ namespace ChatWebSite
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }

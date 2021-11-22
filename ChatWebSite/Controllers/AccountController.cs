@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-
+﻿using ChatWebSite.Models;
+using ChatWebSite.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
-using ChatWebSite.Models;
-using ChatWebSite.ViewModels;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ChatWebSite.Controllers
 {
@@ -16,7 +14,7 @@ namespace ChatWebSite.Controllers
         private SignInManager<User> _signInManager;
 
         public AccountController(
-            UserManager<User> userManager, 
+            UserManager<User> userManager,
             SignInManager<User> signInManager)
         {
             _userManager = userManager;
@@ -69,7 +67,7 @@ namespace ChatWebSite.Controllers
             }
 
             bool uniqueLogin = !_userManager.Users.Any(u => u.Login == model.Login);
-            
+
             if (uniqueLogin)
             {
                 var user = new User
@@ -91,7 +89,7 @@ namespace ChatWebSite.Controllers
             {
                 ModelState.AddModelError("RegisterError", "Логин должен быть уникальным");
             }
-            
+
             return View(model);
         }
 
